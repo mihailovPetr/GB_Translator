@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">GB_Translator</string>
+    <string name="description_rv">Description</string>
+    <string name="header_rv">Header</string>
+    <string name="transcription">Transcription</string>
+    <string name="search">Search</string>
+    <string name="error">Error</string>
+    <string name="reload">Reload</string>
+    <string name="error_empty_response">Response from server is empty</string>
+    <string name="error_undefined">Undefined error</string>
+    <string name="search_hint">Search</string>
+    <string name="delete_description">X</string>
+</resources>
