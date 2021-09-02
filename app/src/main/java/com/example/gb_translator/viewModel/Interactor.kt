@@ -1,4 +1,4 @@
-package com.example.gb_translator.presenter
+package com.example.gb_translator.viewModel
 
 import io.reactivex.Observable
 

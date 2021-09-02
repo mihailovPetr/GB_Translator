@@ -5,24 +5,34 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
+import com.example.gb_translator.app.App
 import com.example.gb_translator.databinding.ActivityMainBinding
 import com.example.gb_translator.model.data.AppState
-import com.example.gb_translator.presenter.Presenter
+import com.example.gb_translator.model.data.DataModel
+import com.example.gb_translator.utils.ui.AlertDialogFragment
 import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.main.adapter.MainAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), View {
 
-    private var adapter: MainAdapter? = null
-    private val presenter: Presenter<View> = MainPresenterImpl()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: MainViewModel
+    private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
 
-    private val textWatcher = object : TextWatcher {
+    private val listItemClickListener: (DataModel) -> Unit = { data ->
+        Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+    }
 
+    private val textWatcher = object : TextWatcher {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if (!vb.searchEditText.text.isNullOrEmpty()) {
                 vb.searchButton.isEnabled = true
@@ -42,74 +52,61 @@ class MainActivity : AppCompatActivity(), View {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
+        App.instance.appComponent.inject(this)
+
+        viewModel = viewModelFactory.create(MainViewModel::class.java)
+        viewModel.getLiveData().observe(this@MainActivity, { renderData(it) })
+
+        vb.mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
+        vb.mainActivityRv.adapter = adapter
+
         vb.searchEditText.addTextChangedListener(textWatcher)
 
-        vb.clearTextImageView.setOnClickListener {
-            vb.searchEditText.text = null
-        }
+        vb.clearTextImageView.setOnClickListener { vb.searchEditText.text = null }
 
         vb.searchButton.setOnClickListener {
-            presenter.getData(vb.searchEditText.text.toString(), true)
+            viewModel.getData(vb.searchEditText.text.toString(), true)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.attachView(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detachView()
     }
 
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                val dataModel = appState.data
-                if (dataModel == null || dataModel.isEmpty()) {
-                    showErrorScreen(getString(R.string.error_empty_response))
+                showViewWorking()
+                val data = appState.data
+                if (data.isNullOrEmpty()) {
+                    showAlertDialog(
+                        getString(R.string.dialog_tittle_sorry),
+                        getString(R.string.empty_server_response_on_success)
+                    )
                 } else {
-                    showViewSuccess()
-                    if (adapter == null) {
-                        vb.mainActivityRv.layoutManager =
-                            LinearLayoutManager(applicationContext)
-                        vb.mainActivityRv.adapter = MainAdapter(dataModel)
-                    } else {
-                        adapter!!.setData(dataModel)
-                    }
+                    adapter.setData(data)
                 }
             }
             is AppState.Loading -> {
                 showViewLoading()
             }
             is AppState.Error -> {
-                showErrorScreen(appState.error.message)
+                showViewWorking()
+                showAlertDialog(getString(R.string.error_stub), appState.error.message)
             }
         }
     }
 
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-        vb.errorTextView.text = error ?: getString(R.string.error_undefined)
-        vb.reloadButton.setOnClickListener { vb.searchButton.performClick() }
+    private fun showViewWorking() {
+        vb.loadingFrameLayout.visibility = GONE
     }
 
-    private fun showViewSuccess() {
-        vb.successLinearLayout.visibility = VISIBLE
-        vb.loadingFrameLayout.visibility = GONE
-        vb.errorLinearLayout.visibility = GONE
+    private fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title, message)
+            .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
     }
 
     private fun showViewLoading() {
-        vb.successLinearLayout.visibility = GONE
         vb.loadingFrameLayout.visibility = VISIBLE
-        vb.errorLinearLayout.visibility = GONE
     }
 
-    private fun showViewError() {
-        vb.successLinearLayout.visibility = GONE
-        vb.loadingFrameLayout.visibility = GONE
-        vb.errorLinearLayout.visibility = VISIBLE
+    companion object {
+        private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
     }
 }
