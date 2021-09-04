@@ -7,23 +7,19 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
-import com.example.gb_translator.app.App
 import com.example.gb_translator.databinding.ActivityMainBinding
 import com.example.gb_translator.model.data.AppState
 import com.example.gb_translator.model.data.DataModel
 import com.example.gb_translator.utils.ui.AlertDialogFragment
 import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.main.adapter.MainAdapter
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), View {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: MainViewModel
+    val viewModel: MainViewModel by viewModel()
     private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
@@ -52,18 +48,13 @@ class MainActivity : AppCompatActivity(), View {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
-        App.instance.appComponent.inject(this)
-
-        viewModel = viewModelFactory.create(MainViewModel::class.java)
         viewModel.getLiveData().observe(this@MainActivity, { renderData(it) })
 
         vb.mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
         vb.mainActivityRv.adapter = adapter
 
         vb.searchEditText.addTextChangedListener(textWatcher)
-
         vb.clearTextImageView.setOnClickListener { vb.searchEditText.text = null }
-
         vb.searchButton.setOnClickListener {
             viewModel.getData(vb.searchEditText.text.toString(), true)
         }

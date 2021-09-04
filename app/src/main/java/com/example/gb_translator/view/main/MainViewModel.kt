@@ -4,25 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gb_translator.model.data.AppState
-import com.example.gb_translator.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
+import kotlinx.coroutines.*
 
-class MainViewModel @Inject constructor(
-    private val interactor: MainInteractor,
-    private val schedulerProvider: SchedulerProvider
+class MainViewModel constructor(
+    private val interactor: MainInteractor
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<AppState> = MutableLiveData()
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val viewModelCoroutineScope = CoroutineScope(
+        Dispatchers.Main
+                + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            handleError(throwable)
+        })
 
+    private fun cancelJob() {
+        viewModelCoroutineScope.coroutineContext.cancelChildren()
+    }
 
     fun getLiveData(): LiveData<AppState> {
         return liveData
     }
 
     override fun onCleared() {
-        compositeDisposable.clear()
+        super.onCleared()
+        liveData.value = AppState.Success(null)
+        cancelJob()
+    }
+
+    private fun handleError(error: Throwable) {
+        liveData.postValue(AppState.Error(error))
     }
 
     fun getData(word: String, isOnline: Boolean) {
@@ -30,16 +41,9 @@ class MainViewModel @Inject constructor(
             return
         }
 
-        interactor.getData(word, isOnline)
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .doOnSubscribe { liveData.value = AppState.Loading(null) }
-            .subscribe({ appState ->
-                liveData.value = appState
-            }, { e ->
-                liveData.value = AppState.Error(e)
-            })
-            .also { compositeDisposable.add(it) }
+        liveData.value = AppState.Loading(null)
+        cancelJob()
+        viewModelCoroutineScope.launch { liveData.postValue(interactor.getData(word, isOnline)) }
     }
 
 }
