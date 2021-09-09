@@ -57,7 +57,19 @@ dependencies {
     implementation 'org.koin:koin-android:2.0.1'
     implementation 'org.koin:koin-android-viewmodel:2.0.1'
 
+    //Room
+    implementation 'androidx.room:room-runtime:2.4.0-alpha04'
+    kapt 'androidx.room:room-compiler:2.4.0-alpha04'
+    implementation 'androidx.room:room-ktx:2.4.0-alpha04'
+
+    //Coil
+    implementation 'io.coil-kt:coil:0.11.0'
+
+    //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
+
+    //Swiperefreshlayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }

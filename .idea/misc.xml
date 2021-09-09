@@ -3,10 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/drawable-v24/ic_no_photo_vector.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/drawable/ic_delete_text.xml" value="0.26851851851851855" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/drawable/ic_history.xml" value="0.25277777777777777" />
         <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/drawable/ic_search.xml" value="0.30277777777777776" />
         <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/activity_main.xml" value="0.2776268115942029" />
         <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/activity_main_item.xml" value="0.2776268115942029" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/fragment_description.xml" value="0.24230072463768115" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/fragment_history.xml" value="0.29214929214929214" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/fragment_history_rv_item.xml" value="0.24592391304347827" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/layout/frahment_description.xml" value="0.24230072463768115" />
+        <entry key="..\:/AndroidStudioProjects/GB_Translator/app/src/main/res/menu/history_menu.xml" value="0.26614583333333336" />
       </map>
     </option>
   </component>

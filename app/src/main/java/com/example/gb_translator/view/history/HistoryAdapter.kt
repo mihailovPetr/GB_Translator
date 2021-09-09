@@ -1,13 +1,13 @@
-package com.example.gb_translator.view.main.adapter
+package com.example.gb_translator.view.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gb_translator.databinding.ActivityMainItemBinding
+import com.example.gb_translator.databinding.FragmentHistoryRvItemBinding
 import com.example.gb_translator.model.data.DataModel
 
-class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
-    RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
+class HistoryAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
+    RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<DataModel> = arrayListOf()
 
@@ -18,7 +18,7 @@ class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
         return RecyclerItemViewHolder(
-            ActivityMainItemBinding
+            FragmentHistoryRvItemBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
@@ -31,7 +31,7 @@ class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
         return data.size
     }
 
-    inner class RecyclerItemViewHolder(private val vb: ActivityMainItemBinding) :
+    inner class RecyclerItemViewHolder(private val vb: FragmentHistoryRvItemBinding) :
         RecyclerView.ViewHolder(vb.root) {
 
         private lateinit var data: DataModel
@@ -42,9 +42,7 @@ class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
 
         fun bind(data: DataModel) {
             this.data = data
-            vb.headerTextviewRv.text = data.text
-            vb.descriptionTextviewRv.text = data.meanings?.get(0)?.translation?.translation
-            vb.transcriptionTextviewRv.text = data.meanings?.get(0)?.transcription
+            vb.headerHistoryTextviewRecyclerItem.text = data.text
         }
     }
 }

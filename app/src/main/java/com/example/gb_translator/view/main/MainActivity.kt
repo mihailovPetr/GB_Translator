@@ -3,9 +3,10 @@ package com.example.gb_translator.view.main
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
@@ -14,18 +15,25 @@ import com.example.gb_translator.model.data.AppState
 import com.example.gb_translator.model.data.DataModel
 import com.example.gb_translator.utils.ui.AlertDialogFragment
 import com.example.gb_translator.view.base.View
-import com.example.gb_translator.view.main.adapter.MainAdapter
+import com.example.gb_translator.view.description.DescriptionFragment
+import com.example.gb_translator.view.history.HistoryFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), View {
 
-    val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
     private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
 
     private val listItemClickListener: (DataModel) -> Unit = { data ->
-        Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+        val word = data.text
+        val description = data.meanings?.get(0)?.translation?.translation
+        val url = data.meanings?.get(0)?.imageUrl
+
+        if (!word.isNullOrEmpty()) {
+            toDescriptionScreen(data.text, description ?: "", url)
+        }
     }
 
     private val textWatcher = object : TextWatcher {
@@ -82,6 +90,39 @@ class MainActivity : AppCompatActivity(), View {
                 showAlertDialog(getString(R.string.error_stub), appState.error.message)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                toHistoryScreen()
+                true
+            }
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun toHistoryScreen() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.root_layout, HistoryFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun toDescriptionScreen(word: String, description: String, url: String?) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.root_layout, DescriptionFragment.newInstance(word, description, url))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun showViewWorking() {
