@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.ActivityMainBinding
-import com.example.gb_translator.model.data.AppState
-import com.example.gb_translator.model.data.DataModel
+import com.example.gb_translator.model.entity.AppState
+import com.example.gb_translator.model.entity.Word
 import com.example.gb_translator.utils.ui.AlertDialogFragment
 import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.description.DescriptionFragment
@@ -26,14 +26,8 @@ class MainActivity : AppCompatActivity(), View {
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
 
-    private val listItemClickListener: (DataModel) -> Unit = { data ->
-        val word = data.text
-        val description = data.meanings?.get(0)?.translation?.translation
-        val url = data.meanings?.get(0)?.imageUrl
-
-        if (!word.isNullOrEmpty()) {
-            toDescriptionScreen(data.text, description ?: "", url)
-        }
+    private val listItemClickListener: (Word) -> Unit = { word ->
+            toDescriptionScreen(word)
     }
 
     private val textWatcher = object : TextWatcher {
@@ -70,9 +64,9 @@ class MainActivity : AppCompatActivity(), View {
 
     override fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.Success -> {
+            is AppState.Success<*> -> {
                 showViewWorking()
-                val data = appState.data
+                val data = appState.data as List<Word>
                 if (data.isNullOrEmpty()) {
                     showAlertDialog(
                         getString(R.string.dialog_tittle_sorry),
@@ -118,9 +112,9 @@ class MainActivity : AppCompatActivity(), View {
             .commit()
     }
 
-    private fun toDescriptionScreen(word: String, description: String, url: String?) {
+    private fun toDescriptionScreen(word: Word) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.root_layout, DescriptionFragment.newInstance(word, description, url))
+            .add(R.id.root_layout, DescriptionFragment.newInstance(word))
             .addToBackStack(null)
             .commit()
     }

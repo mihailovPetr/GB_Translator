@@ -3,7 +3,7 @@ package com.example.gb_translator.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gb_translator.model.data.AppState
+import com.example.gb_translator.model.entity.AppState
 import kotlinx.coroutines.*
 
 class MainViewModel(private val interactor: MainInteractor) : ViewModel() {
@@ -41,7 +41,7 @@ class MainViewModel(private val interactor: MainInteractor) : ViewModel() {
 
         liveData.value = AppState.Loading(null)
         cancelJob()
-        viewModelCoroutineScope.launch { liveData.postValue(interactor.getData(word, isOnline)) }
+        viewModelCoroutineScope.launch { liveData.postValue(interactor.getData(word)) }
     }
 
 }

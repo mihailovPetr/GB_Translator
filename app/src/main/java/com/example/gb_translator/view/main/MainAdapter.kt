@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.databinding.ActivityMainRvItemBinding
-import com.example.gb_translator.model.data.DataModel
+import com.example.gb_translator.model.entity.Word
+import com.example.gb_translator.utils.getTranslationsString
 
-class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
+class MainAdapter(private var itemClickListener: ((Word) -> Unit)?) :
     RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<DataModel> = arrayListOf()
+    private var data: List<Word> = arrayListOf()
 
-    fun setData(data: List<DataModel>) {
+    fun setData(data: List<Word>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -34,17 +35,17 @@ class MainAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
     inner class RecyclerItemViewHolder(private val vb: ActivityMainRvItemBinding) :
         RecyclerView.ViewHolder(vb.root) {
 
-        private lateinit var data: DataModel
+        private lateinit var data: Word
 
         init {
             itemView.setOnClickListener { itemClickListener?.invoke(data) }
         }
 
-        fun bind(data: DataModel) {
-            this.data = data
-            vb.headerTextviewRv.text = data.text
-            vb.descriptionTextviewRv.text = data.meanings?.get(0)?.translation?.translation
-            vb.transcriptionTextviewRv.text = data.meanings?.get(0)?.transcription
+        fun bind(word: Word) {
+            this.data = word
+            vb.headerTextviewRv.text = word.text
+            vb.descriptionTextviewRv.text = word.getTranslationsString()
+            vb.transcriptionTextviewRv.text = word.translations?.get(0)?.transcription
         }
     }
 }

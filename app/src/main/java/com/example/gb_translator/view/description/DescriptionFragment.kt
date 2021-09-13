@@ -1,16 +1,21 @@
 package com.example.gb_translator.view.description
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.api.load
 import com.example.gb_translator.databinding.FragmentDescriptionBinding
+import com.example.gb_translator.model.entity.Word
+import com.example.gb_translator.utils.getTranslationsString
 
 class DescriptionFragment : Fragment() {
 
     private var _binding: FragmentDescriptionBinding? = null
     private val vb get() = _binding!!
+    private val word by lazy { arguments?.getParcelable<Word>(WORD_ARG) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,10 +38,12 @@ class DescriptionFragment : Fragment() {
     }
 
     private fun setData() {
-        with(vb) {
-            descriptionHeader.text = arguments?.getString(WORD_ARG)
-            descriptionTextview.text = arguments?.getString(DESCRIPTION_ARG)
-            descriptionImageview.load("https:${arguments?.getString(URL_ARG)}")
+        word?.let { word ->
+            with(vb) {
+                descriptionHeader.text = word.text
+                descriptionTextview.text = word.getTranslationsString()
+                descriptionImageview.load("https:${word.translations?.get(0)?.imageUrl}")
+            }
         }
     }
 
@@ -51,15 +58,11 @@ class DescriptionFragment : Fragment() {
 
     companion object {
         private const val WORD_ARG = "word"
-        private const val DESCRIPTION_ARG = "description"
-        private const val URL_ARG = "url"
 
-        fun newInstance(word: String, description: String, url: String?) =
+        fun newInstance(word: Word) =
             DescriptionFragment().apply {
                 arguments = Bundle().apply {
-                    putString(WORD_ARG, word)
-                    putString(DESCRIPTION_ARG, description)
-                    putString(URL_ARG, url)
+                    putParcelable(WORD_ARG, word)
                 }
             }
     }

@@ -3,7 +3,7 @@ package com.example.gb_translator.view.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gb_translator.model.data.AppState
+import com.example.gb_translator.model.entity.AppState
 import kotlinx.coroutines.*
 
 class HistoryViewModel(private val interactor: HistoryInteractor) : ViewModel() {
@@ -35,7 +35,7 @@ class HistoryViewModel(private val interactor: HistoryInteractor) : ViewModel() 
     fun getData() {
         liveData.value = AppState.Loading(null)
         cancelJob()
-        viewModelCoroutineScope.launch { liveData.postValue(interactor.getData()) }
+        viewModelCoroutineScope.launch { liveData.postValue(interactor.getHistory()) }
     }
 
 }

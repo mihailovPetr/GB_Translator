@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.FragmentHistoryBinding
-import com.example.gb_translator.model.data.AppState
+import com.example.gb_translator.model.entity.AppState
+import com.example.gb_translator.model.entity.room.HistoryEntity
 import com.example.gb_translator.utils.ui.AlertDialogFragment
-import com.example.gb_translator.view.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HistoryFragment : Fragment() {
@@ -42,9 +42,9 @@ class HistoryFragment : Fragment() {
 
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.Success -> {
+            is AppState.Success<*> -> {
                 showViewWorking()
-                val data = appState.data
+                val data = appState.data as List<HistoryEntity>
                 if (data.isNullOrEmpty()) {
                     showAlertDialog(
                         getString(R.string.dialog_tittle_sorry),

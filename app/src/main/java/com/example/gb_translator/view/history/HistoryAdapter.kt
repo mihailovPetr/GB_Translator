@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.databinding.FragmentHistoryRvItemBinding
-import com.example.gb_translator.model.data.DataModel
+import com.example.gb_translator.model.entity.room.HistoryEntity
 
-class HistoryAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
+class HistoryAdapter(private var itemClickListener: ((HistoryEntity) -> Unit)?) :
     RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<DataModel> = arrayListOf()
+    private var data: List<HistoryEntity> = arrayListOf()
 
-    fun setData(data: List<DataModel>) {
+    fun setData(data: List<HistoryEntity>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -34,15 +34,15 @@ class HistoryAdapter(private var itemClickListener: ((DataModel) -> Unit)?) :
     inner class RecyclerItemViewHolder(private val vb: FragmentHistoryRvItemBinding) :
         RecyclerView.ViewHolder(vb.root) {
 
-        private lateinit var data: DataModel
+        private lateinit var data: HistoryEntity
 
         init {
             itemView.setOnClickListener { itemClickListener?.invoke(data) }
         }
 
-        fun bind(data: DataModel) {
+        fun bind(data: HistoryEntity) {
             this.data = data
-            vb.headerHistoryTextviewRecyclerItem.text = data.text
+            vb.headerHistoryTextviewRecyclerItem.text = data.word
         }
     }
 }

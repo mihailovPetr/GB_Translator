@@ -1,4 +1,4 @@
-package com.example.gb_translator.room
+package com.example.gb_translator.model.entity.room
 
 import androidx.room.Entity
 import androidx.room.Index
@@ -6,9 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = arrayOf("word"), unique = true)])
 class HistoryEntity(
-    @field:PrimaryKey
-    val word: String,
-    val description: String?,
-    val imageUrl: String?,
-    val transcription: String?
+    @PrimaryKey
+    val word: String
 )

@@ -1,13 +1,13 @@
 package com.example.gb_translator.view.history
 
-import com.example.gb_translator.model.data.AppState
-import com.example.gb_translator.model.data.DataModel
-import com.example.gb_translator.model.repository.RepositoryLocal
+import com.example.gb_translator.model.entity.AppState
+import com.example.gb_translator.model.repository.IRepository
+import com.example.gb_translator.model.repository.Repository
 
 
-class HistoryInteractor(private val repositoryLocal: RepositoryLocal<List<DataModel>>) {
+class HistoryInteractor(private val repository: IRepository) {
 
-    suspend fun getData(): AppState {
-        return AppState.Success(repositoryLocal.getData(""))
+    suspend fun getHistory(): AppState {
+        return AppState.Success(repository.getAllHistory())
     }
 }
