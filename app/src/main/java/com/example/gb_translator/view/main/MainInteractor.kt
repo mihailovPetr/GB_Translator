@@ -1,7 +1,7 @@
 package com.example.gb_translator.view.main
 
-import com.example.gb_translator.model.entity.AppState
-import com.example.gb_translator.model.repository.IRepository
+import com.example.model.entity.AppState
+import com.example.repository.repository.IRepository
 import com.example.gb_translator.viewModel.Interactor
 
 class MainInteractor(private val repository: IRepository) : Interactor<AppState> {

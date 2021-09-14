@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.ActivityMainBinding
-import com.example.gb_translator.model.entity.AppState
-import com.example.gb_translator.model.entity.Word
-import com.example.gb_translator.utils.ui.AlertDialogFragment
+import com.example.model.entity.AppState
+import com.example.model.entity.Word
+import com.example.utils.ui.AlertDialogFragment
 import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.description.DescriptionFragment
 import com.example.gb_translator.view.history.HistoryFragment
