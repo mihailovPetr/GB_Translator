@@ -3,6 +3,10 @@ plugins {
     id 'kotlin-android'
 }
 
+android {
+    compileSdk Config.compile_sdk
+}
+
 dependencies {
     implementation Kotlin.core
     implementation Design.appcompat

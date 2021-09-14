@@ -1,8 +1,12 @@
 package com.example.repository.cache
 
+import com.example.model.entity.Word
 import com.example.repository.entity.room.HistoryEntity
 import com.example.repository.entity.room.RoomTranslation
 import com.example.repository.room.HistoryDao
+import com.example.repository.utils.toRoomTranslation
+import com.example.repository.utils.toRoomWord
+import com.example.repository.utils.toWord
 
 class Cache(private val dao: HistoryDao) : ICache {
     override suspend fun getWords(word: String): List<Word> {

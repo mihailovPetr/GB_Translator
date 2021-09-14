@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.databinding.ActivityMainRvItemBinding
 import com.example.model.entity.Word
+import com.example.repository.utils.getTranslationsString
 
 class MainAdapter(private var itemClickListener: ((Word) -> Unit)?) :
     RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {

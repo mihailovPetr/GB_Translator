@@ -1,7 +1,6 @@
 package com.example.repository.cache
 
-import com.example.gb_translator.model.entity.Word
-import com.example.gb_translator.model.entity.room.HistoryEntity
+import com.example.model.entity.Word
 import com.example.repository.entity.room.HistoryEntity
 
 interface ICache {

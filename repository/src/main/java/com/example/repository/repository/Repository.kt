@@ -1,9 +1,11 @@
 package com.example.repository.repository
 
+import com.example.model.entity.Word
 import com.example.repository.api.IDataSource
 import com.example.repository.cache.ICache
 import com.example.repository.entity.room.HistoryEntity
 import com.example.repository.networkStatus.INetworkStatus
+import com.example.repository.utils.toWord
 
 class Repository(
     private val api: IDataSource,

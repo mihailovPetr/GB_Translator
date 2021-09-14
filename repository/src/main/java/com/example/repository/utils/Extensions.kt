@@ -1,10 +1,12 @@
 package com.example.repository.utils
 
-import com.example.gb_translator.model.entity.Translation
-import com.example.gb_translator.model.entity.Word
+import android.text.TextUtils
+import com.example.model.entity.Translation
+import com.example.model.entity.Word
 import com.example.repository.entity.dto.MeaningsDTO
 import com.example.repository.entity.dto.WordDTO
 import com.example.repository.entity.room.RoomTranslation
+import com.example.repository.entity.room.RoomWord
 import com.example.repository.entity.room.RoomWordWithTranslations
 
 fun WordDTO.toWord() = Word(id, text, meaningsDTO?.map { it.toTranslation() })

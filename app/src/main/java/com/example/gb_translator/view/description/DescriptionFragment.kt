@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import coil.api.load
 import com.example.gb_translator.databinding.FragmentDescriptionBinding
 import com.example.model.entity.Word
+import com.example.repository.utils.getTranslationsString
 
 class DescriptionFragment : Fragment() {
 

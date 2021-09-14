@@ -6,14 +6,15 @@ plugins {
 }
 
 android {
-
+    compileSdk Config.compile_sdk
     defaultConfig {
         minSdk Config.min_sdk
     }
-    
 }
 
 dependencies {
+    //Modules
+    implementation project(Modules.model)
 
     //Retrofit 2
     implementation Retrofit.retrofit

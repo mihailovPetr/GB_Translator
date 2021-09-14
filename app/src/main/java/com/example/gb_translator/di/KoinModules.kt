@@ -1,6 +1,5 @@
 package com.example.gb_translator.di
 
-import androidx.room.Room
 import com.example.repository.api.ApiHolder
 import com.example.repository.cache.Cache
 import com.example.repository.cache.ICache
@@ -19,12 +18,7 @@ import org.koin.dsl.module
 val application = module {
     single<INetworkStatus> { AndroidNetworkStatus(get()) }
     single { ApiHolder().api }
-    single {
-        Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-    single { get<HistoryDataBase>().historyDao() }
+    single { HistoryDataBase.getHistoryDao(get()) }
     single<ICache> { Cache(get()) }
     single<IRepository> { Repository(get(), get(), get()) }
 }
