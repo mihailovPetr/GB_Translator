@@ -1,18 +1,18 @@
 package com.example.gb_translator.di
 
 import androidx.room.Room
-import com.example.gb_translator.api.ApiHolder
-import com.example.gb_translator.model.cache.Cache
-import com.example.gb_translator.model.cache.ICache
-import com.example.gb_translator.model.repository.IRepository
-import com.example.gb_translator.model.repository.Repository
-import com.example.gb_translator.networkStatus.AndroidNetworkStatus
-import com.example.gb_translator.networkStatus.INetworkStatus
-import com.example.gb_translator.room.HistoryDataBase
+import com.example.repository.api.ApiHolder
+import com.example.repository.cache.Cache
+import com.example.repository.cache.ICache
+import com.example.repository.repository.IRepository
+import com.example.repository.repository.Repository
+import com.example.repository.room.HistoryDataBase
 import com.example.gb_translator.view.history.HistoryInteractor
 import com.example.gb_translator.view.history.HistoryViewModel
 import com.example.gb_translator.view.main.MainInteractor
 import com.example.gb_translator.view.main.MainViewModel
+import com.example.repository.networkStatus.AndroidNetworkStatus
+import com.example.repository.networkStatus.INetworkStatus
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

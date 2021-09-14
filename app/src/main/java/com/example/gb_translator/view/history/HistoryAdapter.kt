@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.databinding.FragmentHistoryRvItemBinding
-import com.example.gb_translator.model.entity.room.HistoryEntity
+import com.example.repository.entity.room.HistoryEntity
 
 class HistoryAdapter(private var itemClickListener: ((HistoryEntity) -> Unit)?) :
     RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {

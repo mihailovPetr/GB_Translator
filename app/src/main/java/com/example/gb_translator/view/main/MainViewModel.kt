@@ -3,7 +3,7 @@ package com.example.gb_translator.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gb_translator.model.entity.AppState
+import com.example.model.entity.AppState
 import kotlinx.coroutines.*
 
 class MainViewModel(private val interactor: MainInteractor) : ViewModel() {

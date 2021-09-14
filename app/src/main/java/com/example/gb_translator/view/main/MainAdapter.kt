@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.databinding.ActivityMainRvItemBinding
-import com.example.gb_translator.model.entity.Word
-import com.example.gb_translator.utils.getTranslationsString
+import com.example.model.entity.Word
 
 class MainAdapter(private var itemClickListener: ((Word) -> Unit)?) :
     RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {

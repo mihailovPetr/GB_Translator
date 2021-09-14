@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.FragmentHistoryBinding
-import com.example.gb_translator.model.entity.AppState
-import com.example.gb_translator.model.entity.room.HistoryEntity
-import com.example.gb_translator.utils.ui.AlertDialogFragment
+import com.example.model.entity.AppState
+import com.example.repository.entity.room.HistoryEntity
+import com.example.utils.ui.AlertDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HistoryFragment : Fragment() {
