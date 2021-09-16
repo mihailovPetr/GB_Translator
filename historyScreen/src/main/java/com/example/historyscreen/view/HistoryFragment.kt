@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
-import com.example.gb_translator.databinding.FragmentHistoryBinding
+import com.example.historyscreen.databinding.FragmentHistoryBinding
 import com.example.historyscreen.injectDependencies
 import com.example.model.entity.AppState
 import com.example.repository.entity.room.HistoryEntity
