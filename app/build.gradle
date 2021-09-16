@@ -35,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvm_target
     }
+    dynamicFeatures = [Modules.historyScreen]
 }
 
 dependencies {
@@ -62,6 +63,9 @@ dependencies {
     //Coroutines
     implementation Kotlin.coroutines_core
     implementation Kotlin.coroutines_android
+
+    //Google Play libraries
+    implementation GooglePlay.googlePlayCore
 
     //Test
     testImplementation TestImpl.junit

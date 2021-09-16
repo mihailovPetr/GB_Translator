@@ -53,6 +53,9 @@ object Versions {
     const val runtime = "2.4.0-alpha04"
     const val roomCompiler = "2.4.0-alpha04"
 
+    //Google Play
+    const val googlePlayCore = "1.10.1"
+
     //Test
     const val jUnit = "4.+"
     const val testJunit = "1.1.3"
@@ -99,4 +102,8 @@ object TestImpl {
     const val junit = "junit:junit:${Versions.jUnit}"
     const val test_junit = "androidx.test:runner:${Versions.testJunit}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+}
+
+object GooglePlay {
+    const val googlePlayCore = "com.google.android.play:core:${Versions.googlePlayCore}"
 }

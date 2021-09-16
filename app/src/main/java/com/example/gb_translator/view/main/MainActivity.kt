@@ -1,5 +1,6 @@
 package com.example.gb_translator.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,27 +8,35 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.ActivityMainBinding
+import com.example.gb_translator.view.base.View
+import com.example.gb_translator.view.description.DescriptionFragment
 import com.example.model.entity.AppState
 import com.example.model.entity.Word
 import com.example.utils.ui.AlertDialogFragment
-import com.example.gb_translator.view.base.View
-import com.example.gb_translator.view.description.DescriptionFragment
-import com.example.gb_translator.view.history.HistoryFragment
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import org.koin.android.viewmodel.ext.android.viewModel
+
+private const val HISTORY_FRAGMENT_PATH = "com.example.historyscreen.view.HistoryFragment"
+private const val HISTORY_FRAGMENT_FEATURE_NAME = "historyScreen"
 
 class MainActivity : AppCompatActivity(), View {
 
     private val viewModel: MainViewModel by viewModel()
     private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
+    private lateinit var splitInstallManager: SplitInstallManager
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
 
     private val listItemClickListener: (Word) -> Unit = { word ->
-            toDescriptionScreen(word)
+        toDescriptionScreen(word)
     }
 
     private val textWatcher = object : TextWatcher {
@@ -106,15 +115,35 @@ class MainActivity : AppCompatActivity(), View {
     }
 
     private fun toHistoryScreen() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.root_layout, HistoryFragment.newInstance())
-            .addToBackStack(null)
-            .commit()
+        splitInstallManager = SplitInstallManagerFactory.create(applicationContext)
+        val request =
+            SplitInstallRequest
+                .newBuilder()
+                .addModule(HISTORY_FRAGMENT_FEATURE_NAME)
+                .build()
+
+        splitInstallManager
+            .startInstall(request)
+            .addOnSuccessListener {
+                val historyFragment = Class.forName(HISTORY_FRAGMENT_PATH).newInstance() as Fragment
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.root_layout, historyFragment)
+                    .addToBackStack(null)
+                    .commit()
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    applicationContext,
+                    "Couldn't download feature: " + it.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
     }
 
     private fun toDescriptionScreen(word: Word) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.root_layout, DescriptionFragment.newInstance(word))
+            .replace(R.id.root_layout, DescriptionFragment.newInstance(word))
             .addToBackStack(null)
             .commit()
     }
