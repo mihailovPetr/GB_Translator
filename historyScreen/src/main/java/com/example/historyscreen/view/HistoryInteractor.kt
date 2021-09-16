@@ -1,4 +1,4 @@
-package com.example.gb_translator.view.history
+package com.example.historyscreen.view
 
 import com.example.model.entity.AppState
 import com.example.repository.repository.IRepository

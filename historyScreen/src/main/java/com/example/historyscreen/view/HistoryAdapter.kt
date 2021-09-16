@@ -1,12 +1,12 @@
-package com.example.gb_translator.view.history
+package com.example.historyscreen.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gb_translator.databinding.FragmentHistoryRvItemBinding
+import com.example.historyscreen.databinding.FragmentHistoryRvItemBinding
 import com.example.repository.entity.room.HistoryEntity
 
-class HistoryAdapter(private var itemClickListener: ((HistoryEntity) -> Unit)?) :
+class HistoryAdapter(private var itemClickListener: ((HistoryEntity) -> Unit)? = null) :
     RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<HistoryEntity> = arrayListOf()

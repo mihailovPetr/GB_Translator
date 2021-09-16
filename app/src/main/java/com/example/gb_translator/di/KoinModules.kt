@@ -6,8 +6,6 @@ import com.example.repository.cache.ICache
 import com.example.repository.repository.IRepository
 import com.example.repository.repository.Repository
 import com.example.repository.room.HistoryDataBase
-import com.example.gb_translator.view.history.HistoryInteractor
-import com.example.gb_translator.view.history.HistoryViewModel
 import com.example.gb_translator.view.main.MainInteractor
 import com.example.gb_translator.view.main.MainViewModel
 import com.example.repository.networkStatus.AndroidNetworkStatus
@@ -26,9 +24,4 @@ val application = module {
 val mainScreen = module {
     factory { MainInteractor(get()) }
     viewModel { MainViewModel(get()) }
-}
-
-val historyScreen = module {
-    viewModel { HistoryViewModel(get()) }
-    factory { HistoryInteractor(get()) }
 }

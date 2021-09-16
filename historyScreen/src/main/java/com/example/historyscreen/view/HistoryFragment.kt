@@ -1,4 +1,4 @@
-package com.example.gb_translator.view.history
+package com.example.historyscreen.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
-import com.example.gb_translator.databinding.FragmentHistoryBinding
+import com.example.historyscreen.databinding.FragmentHistoryBinding
+import com.example.historyscreen.injectDependencies
 import com.example.model.entity.AppState
 import com.example.repository.entity.room.HistoryEntity
 import com.example.utils.ui.AlertDialogFragment
@@ -18,8 +19,12 @@ class HistoryFragment : Fragment() {
     private var _binding: FragmentHistoryBinding? = null
     private val vb get() = _binding!!
     private val viewModel: HistoryViewModel by viewModel()
-    private val adapter: HistoryAdapter by lazy { HistoryAdapter {} }
+    private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        injectDependencies()
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
