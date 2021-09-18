@@ -1,6 +1,5 @@
 package com.example.gb_translator.view.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,6 +21,7 @@ import com.example.utils.ui.AlertDialogFragment
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val HISTORY_FRAGMENT_PATH = "com.example.historyscreen.view.HistoryFragment"
@@ -29,7 +29,7 @@ private const val HISTORY_FRAGMENT_FEATURE_NAME = "historyScreen"
 
 class MainActivity : AppCompatActivity(), View {
 
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by currentScope.viewModel(this)
     private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
     private lateinit var splitInstallManager: SplitInstallManager
     private var _binding: ActivityMainBinding? = null
