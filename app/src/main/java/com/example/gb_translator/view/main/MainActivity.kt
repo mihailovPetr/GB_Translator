@@ -18,6 +18,7 @@ import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.description.DescriptionFragment
 import com.example.model.entity.AppState
 import com.example.model.entity.Word
+import com.example.utils.network.OnlineLiveData
 import com.example.utils.ui.AlertDialogFragment
 import com.example.utils.ui.viewById
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity(), View {
     private lateinit var splitInstallManager: SplitInstallManager
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
+    private var isNetworkAvailable: Boolean = true
 
     private val listItemClickListener: (Word) -> Unit = { word ->
         toDescriptionScreen(word)
@@ -72,6 +74,8 @@ class MainActivity : AppCompatActivity(), View {
         vb.searchButton.setOnClickListener {
             viewModel.getData(vb.searchEditText.text.toString(), true)
         }
+
+        subscribeToNetworkChange()
     }
 
     override fun renderData(appState: AppState) {
@@ -162,6 +166,21 @@ class MainActivity : AppCompatActivity(), View {
 
     private fun showViewLoading() {
         vb.loadingFrameLayout.visibility = VISIBLE
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(
+            this,
+            {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 
     companion object {

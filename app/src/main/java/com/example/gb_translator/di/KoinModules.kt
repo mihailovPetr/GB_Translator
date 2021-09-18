@@ -6,8 +6,8 @@ import com.example.gb_translator.view.main.MainViewModel
 import com.example.repository.api.ApiHolder
 import com.example.repository.cache.Cache
 import com.example.repository.cache.ICache
-import com.example.repository.networkStatus.AndroidNetworkStatus
-import com.example.repository.networkStatus.INetworkStatus
+import com.example.utils.network.AndroidNetworkStatus
+import com.example.utils.network.INetworkStatus
 import com.example.repository.repository.IRepository
 import com.example.repository.repository.Repository
 import com.example.repository.room.HistoryDataBase

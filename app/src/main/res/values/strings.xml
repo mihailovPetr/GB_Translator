@@ -15,4 +15,5 @@
     <string name="error_stub">Error</string>
     <string name="menu_title_history">History</string>
     <string name="title_historyscreen">History screen feature</string>
+    <string name="dialog_message_device_is_offline">ou can not use app without internet connection. Please, check internet connection.</string>
 </resources>
