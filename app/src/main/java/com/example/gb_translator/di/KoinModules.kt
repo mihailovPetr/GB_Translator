@@ -1,16 +1,18 @@
 package com.example.gb_translator.di
 
+import com.example.gb_translator.view.main.MainActivity
+import com.example.gb_translator.view.main.MainInteractor
+import com.example.gb_translator.view.main.MainViewModel
 import com.example.repository.api.ApiHolder
 import com.example.repository.cache.Cache
 import com.example.repository.cache.ICache
+import com.example.utils.network.AndroidNetworkStatus
+import com.example.utils.network.INetworkStatus
 import com.example.repository.repository.IRepository
 import com.example.repository.repository.Repository
 import com.example.repository.room.HistoryDataBase
-import com.example.gb_translator.view.main.MainInteractor
-import com.example.gb_translator.view.main.MainViewModel
-import com.example.repository.networkStatus.AndroidNetworkStatus
-import com.example.repository.networkStatus.INetworkStatus
 import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
@@ -22,6 +24,8 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory { MainInteractor(get()) }
-    viewModel { MainViewModel(get()) }
+    scope(named<MainActivity>()) {
+        scoped { MainInteractor(get()) }
+        viewModel { MainViewModel(get()) }
+    }
 }

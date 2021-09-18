@@ -7,18 +7,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_translator.R
+import com.example.historyscreen.HISTORY_SCOPE_NAME
 import com.example.historyscreen.databinding.FragmentHistoryBinding
 import com.example.historyscreen.injectDependencies
 import com.example.model.entity.AppState
 import com.example.repository.entity.room.HistoryEntity
 import com.example.utils.ui.AlertDialogFragment
+import org.koin.android.ext.android.getKoin
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val vb get() = _binding!!
-    private val viewModel: HistoryViewModel by viewModel()
+    private val scope = run {
+        injectDependencies()
+        getKoin().createScope("historyScope", named(HISTORY_SCOPE_NAME))
+    }
+    private val viewModel: HistoryViewModel by scope.viewModel(this)
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +95,11 @@ class HistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
     }
 
     companion object {

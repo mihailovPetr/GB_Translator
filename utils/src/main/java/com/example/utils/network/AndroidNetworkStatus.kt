@@ -1,4 +1,4 @@
-package com.example.repository.networkStatus
+package com.example.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager

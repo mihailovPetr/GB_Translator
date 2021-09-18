@@ -15,6 +15,7 @@ android {
 dependencies {
     //Modules
     implementation project(Modules.model)
+    implementation project(Modules.utils)
 
     //Retrofit 2
     implementation Retrofit.retrofit

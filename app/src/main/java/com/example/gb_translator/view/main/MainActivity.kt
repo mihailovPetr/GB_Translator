@@ -1,6 +1,5 @@
 package com.example.gb_translator.view.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,16 +11,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.ActivityMainBinding
 import com.example.gb_translator.view.base.View
 import com.example.gb_translator.view.description.DescriptionFragment
 import com.example.model.entity.AppState
 import com.example.model.entity.Word
+import com.example.utils.network.OnlineLiveData
 import com.example.utils.ui.AlertDialogFragment
+import com.example.utils.ui.viewById
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val HISTORY_FRAGMENT_PATH = "com.example.historyscreen.view.HistoryFragment"
@@ -29,11 +32,12 @@ private const val HISTORY_FRAGMENT_FEATURE_NAME = "historyScreen"
 
 class MainActivity : AppCompatActivity(), View {
 
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by currentScope.viewModel(this)
     private val adapter: MainAdapter by lazy { MainAdapter(listItemClickListener) }
     private lateinit var splitInstallManager: SplitInstallManager
     private var _binding: ActivityMainBinding? = null
     private val vb get() = _binding!!
+    private var isNetworkAvailable: Boolean = true
 
     private val listItemClickListener: (Word) -> Unit = { word ->
         toDescriptionScreen(word)
@@ -61,14 +65,17 @@ class MainActivity : AppCompatActivity(), View {
 
         viewModel.getLiveData().observe(this@MainActivity, { renderData(it) })
 
-        vb.mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
-        vb.mainActivityRv.adapter = adapter
+        val mainActivityRv by viewById<RecyclerView>(R.id.main_activity_rv)
+        mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRv.adapter = adapter
 
         vb.searchEditText.addTextChangedListener(textWatcher)
         vb.clearTextImageView.setOnClickListener { vb.searchEditText.text = null }
         vb.searchButton.setOnClickListener {
             viewModel.getData(vb.searchEditText.text.toString(), true)
         }
+
+        subscribeToNetworkChange()
     }
 
     override fun renderData(appState: AppState) {
@@ -159,6 +166,21 @@ class MainActivity : AppCompatActivity(), View {
 
     private fun showViewLoading() {
         vb.loadingFrameLayout.visibility = VISIBLE
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(
+            this,
+            {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 
     companion object {
