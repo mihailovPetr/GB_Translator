@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gb_translator.R
 import com.example.gb_translator.databinding.ActivityMainBinding
 import com.example.gb_translator.view.base.View
@@ -18,6 +19,7 @@ import com.example.gb_translator.view.description.DescriptionFragment
 import com.example.model.entity.AppState
 import com.example.model.entity.Word
 import com.example.utils.ui.AlertDialogFragment
+import com.example.utils.ui.viewById
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
@@ -61,8 +63,9 @@ class MainActivity : AppCompatActivity(), View {
 
         viewModel.getLiveData().observe(this@MainActivity, { renderData(it) })
 
-        vb.mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
-        vb.mainActivityRv.adapter = adapter
+        val mainActivityRv by viewById<RecyclerView>(R.id.main_activity_rv)
+        mainActivityRv.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRv.adapter = adapter
 
         vb.searchEditText.addTextChangedListener(textWatcher)
         vb.clearTextImageView.setOnClickListener { vb.searchEditText.text = null }
