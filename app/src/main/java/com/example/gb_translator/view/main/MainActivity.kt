@@ -1,6 +1,9 @@
 package com.example.gb_translator.view.main
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -134,7 +137,7 @@ class MainActivity : AppCompatActivity(), View {
             .addOnSuccessListener {
                 val historyFragment = Class.forName(HISTORY_FRAGMENT_PATH).newInstance() as Fragment
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.root_layout, historyFragment)
+                    .replace(R.id.container_layout, historyFragment)
                     .addToBackStack(null)
                     .commit()
 
@@ -150,7 +153,7 @@ class MainActivity : AppCompatActivity(), View {
 
     private fun toDescriptionScreen(word: Word) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.root_layout, DescriptionFragment.newInstance(word))
+            .replace(R.id.container_layout, DescriptionFragment.newInstance(word))
             .addToBackStack(null)
             .commit()
     }
@@ -169,18 +172,17 @@ class MainActivity : AppCompatActivity(), View {
     }
 
     private fun subscribeToNetworkChange() {
-        OnlineLiveData(this).observe(
-            this,
-            {
-                isNetworkAvailable = it
-                if (!isNetworkAvailable) {
-                    Toast.makeText(
-                        this,
-                        R.string.dialog_message_device_is_offline,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            vb.internetSettingsButton.apply {
+                setOnClickListener { startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)) }
+                visibility = VISIBLE
+            }
+        }
+
+        OnlineLiveData(this).observe(this, {
+            isNetworkAvailable = it
+            vb.noInternetLayout.visibility = if (isNetworkAvailable) GONE else VISIBLE
+        })
     }
 
     companion object {

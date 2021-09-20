@@ -1,113 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.main.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/success_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_xxx_medium"
-            android:hint="@string/search_hint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_edit_text"
-                style="@style/BaseEditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/clear_text_imageView"
-            android:layout_width="@dimen/clear_text_button_size"
-            android:layout_height="@dimen/clear_text_button_size"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:contentDescription="@string/delete_description"
-            android:src="@drawable/ic_delete_text"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/search_input_layout"
-            app:layout_constraintEnd_toEndOf="@+id/search_input_layout"
-            app:layout_constraintTop_toTopOf="@+id/search_input_layout"
-            tools:visibility="visible" />
-
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:textSize="@dimen/text_size_standard_header"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@string/search"
-            app:layout_constraintEnd_toEndOf="@+id/search_input_layout"
-            app:layout_constraintTop_toBottomOf="@+id/search_input_layout"
-            android:backgroundTint="@color/colorAccent"
-            android:enabled="false"
-            tools:enabled="true"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_activity_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/search_button" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <FrameLayout
-        android:id="@+id/loading_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:id="@+id/container_layout">
 
-        <ProgressBar
-            android:id="@+id/progress_bar_horizontal"
-            style="?android:attr/progressBarStyleHorizontal"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/success_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/progress_bar_round"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_xxx_medium"
+                android:hint="@string/search_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_edit_text"
+                    style="@style/BaseEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/clear_text_imageView"
+                android:layout_width="@dimen/clear_text_button_size"
+                android:layout_height="@dimen/clear_text_button_size"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:contentDescription="@string/delete_description"
+                android:src="@drawable/ic_delete_text"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/search_input_layout"
+                app:layout_constraintEnd_toEndOf="@+id/search_input_layout"
+                app:layout_constraintTop_toTopOf="@+id/search_input_layout"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_small"
+                android:backgroundTint="@color/colorAccent"
+                android:enabled="false"
+                android:text="@string/search"
+                android:textSize="@dimen/text_size_standard_header"
+                app:layout_constraintEnd_toEndOf="@+id/search_input_layout"
+                app:layout_constraintTop_toBottomOf="@+id/search_input_layout"
+                tools:enabled="true" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/main_activity_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@+id/search_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/loading_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_horizontal"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/error_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/error_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reload" />
+        </LinearLayout>
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/error_linear_layout"
+    <FrameLayout
+        android:id="@+id/no_internet_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="@dimen/no_internet_layout_height"
+        android:layout_gravity="bottom"
+        android:background="@color/color_no_internet_background"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:paddingStart="@dimen/padding_medium">
 
         <TextView
-            android:id="@+id/error_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/error" />
+            android:layout_gravity="center_vertical"
+            android:text="@string/no_internet_description"
+            style="@style/NoInternetTextStyle"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/reload_button"
+        <Button
+            android:id="@+id/internet_settings_button"
+            style="@style/NoInternetButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reload" />
-    </LinearLayout>
+            android:layout_gravity="end|center_vertical"
+            android:text="@string/internet_settings"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </FrameLayout>
 </FrameLayout>
