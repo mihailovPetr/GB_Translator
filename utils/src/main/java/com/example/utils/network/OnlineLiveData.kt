@@ -24,6 +24,10 @@ class OnlineLiveData(context: Context) : LiveData<Boolean>() {
         }
     }
 
+    init {
+        postValue(false)
+    }
+
     override fun onActive() {
         connectivityManager.registerNetworkCallback(request, callback)
     }
