@@ -23,7 +23,16 @@ fun RoomWordWithTranslations.toWord() =
 
 fun RoomTranslation.toTranslation() = Translation(id, translation, imageUrl, transcription)
 
-fun Word.getTranslationsString(): String{
+fun Word.getTranslationsString(): String {
     val translStringList = translations?.map { it.translation } ?: listOf()
     return TextUtils.join(", ", translStringList)
+}
+
+fun Array<Int>.getEvenArray() = filter { it % 2 == 0 }.toTypedArray()
+
+fun Array<Int>.getEvenArray2() : Array<Int>{
+    return if (this.all { it % 2 == 0 })
+        this
+    else
+        getEvenArray()
 }
